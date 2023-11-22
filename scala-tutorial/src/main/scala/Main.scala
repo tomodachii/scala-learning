@@ -1,5 +1,7 @@
 import ranking.* 
 import foldLeftTestDrive.*
+import productType.scalalang
+import productType.javalang
 
 @main def hello: Unit =  
   val words = List("russ", "aaas", "c")
@@ -15,4 +17,7 @@ import foldLeftTestDrive.*
   println(cumulativeScore(scoreWithBonus, words))
   println(sumListInt(List(5, 1, 2, 4, 100)))
   println(totalLengthOfWords(List("scala", "rust", "ada")))
+  val languages = List(javalang, scalalang)
+  println(languages.map(lang => lang.name))
+  println(languages.filter(_.year > 2000))
 def msg = "I was compiled by Scala 3. :)"
