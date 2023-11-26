@@ -1,6 +1,7 @@
 import ranking.* 
 import foldLeftTestDrive.*
 import productType.*
+import flatMapVsForComprehensions.*
 import productType.scalalang
 import productType.javalang
 
@@ -26,10 +27,32 @@ import productType.javalang
   // val friends = List("Alice", "Bob", "Charlie")
   // println(recommendations(friends))
   
-  val books = List(
-    Book("FP in Scala", List("Chiusano", "Bjarnason")), 
-    Book("The Hobbit", List("Tolkien"))
-  )
+  // val books = List(
+  //   Book("FP in Scala", List("Chiusano", "Bjarnason")), 
+  //   Book("The Hobbit", List("Tolkien"))
+  // )
 
-  println(recommendationFeed(books))
+  // println(recommendationFeed(books))
+
+  // case class Point(x: Int, y: Int)
+  // val test = 
+  //   List(1, 2).flatMap(x =>
+  //     List(1, 7).map(y =>
+  //       Point(x, y)
+  //     )
+  //   )
+  // println(test)
+
+  // val bookRecommedations = for {
+  //   book <- books
+  //   author <- book.authors
+  //   movie <- bookAdaptations(author)
+  // } yield s"You may like ${movie.title}, " + s"because you liked $author's ${book.title}"
+  // println(bookRecommedations)
+
+  println(flatMapListOfPoints)
+  println(forComprehensionListOfPoints)
+  println(forComprehensionListOf3dPoints)
+  println(flatMapListOf3dPoints)
+  
 def msg = "I was compiled by Scala 3. :)"
