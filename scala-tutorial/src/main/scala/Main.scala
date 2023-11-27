@@ -1,7 +1,8 @@
-import ranking.* 
-import foldLeftTestDrive.*
-import productType.*
-import flatMapVsForComprehensions.*
+// import ranking.* 
+// import foldLeftTestDrive.*
+// import productType.*
+// import flatMapVsForComprehensions.*
+import forComprehension.*
 import productType.scalalang
 import productType.javalang
 
@@ -49,10 +50,25 @@ import productType.javalang
   //   movie <- bookAdaptations(author)
   // } yield s"You may like ${movie.title}, " + s"because you liked $author's ${book.title}"
   // println(bookRecommedations)
-
-  println(flatMapListOfPoints)
-  println(forComprehensionListOfPoints)
-  println(forComprehensionListOf3dPoints)
-  println(flatMapListOf3dPoints)
   
+  // flatMap vs For comprehension
+  // println(flatMapListOfPoints)
+  // println(forComprehensionListOfPoints)
+  // println(forComprehensionListOf3dPoints)
+  // println(flatMapListOf3dPoints)
+
+  // for comprehension
+  // println(insideCircle)
+  // println(insideCircle2)
+
+  // println(filterUsingFilterFunctionOnList)
+  // println(filterUsingGuardExpression)
+  // println(filterUsingFunctionPassedToFlatMapFunction)
+  
+  // println(listAndSetForComprehensionWListReturnedType)
+  // println(listAndSetForComprehensionWSetReturnedType)
+  // println(parse("Apollo Program", 1961, 1972))
+  // println(parse("", 1961, 1972))
+  // println(parseLongEvent("Apollo Program", 1961, 1972, 10))
+  println()
 def msg = "I was compiled by Scala 3. :)"
