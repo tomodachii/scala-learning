@@ -90,3 +90,12 @@ def parseLongEvent(name: String, start: Int, end: Int, minLength: Int): Option[E
     validLength <- validateLength(start, end, minLength)
   } yield validEvent
 }
+
+def parse2(name: String, start: Int, end: Int): Option[Event] =
+  validateName(name).flatMap(validName =>
+    validateEnd(end).flatMap(validEnd =>
+      validateStart(start, end).map(validStart =>
+        Event(validName, validStart, validEnd)
+      )
+    )
+  )

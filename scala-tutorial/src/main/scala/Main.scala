@@ -2,7 +2,8 @@
 // import foldLeftTestDrive.*
 // import productType.*
 // import flatMapVsForComprehensions.*
-import forComprehension.*
+// import forComprehension.*
+import errorHandling.*
 import productType.scalalang
 import productType.javalang
 
@@ -70,5 +71,11 @@ import productType.javalang
   // println(parse("Apollo Program", 1961, 1972))
   // println(parse("", 1961, 1972))
   // println(parseLongEvent("Apollo Program", 1961, 1972, 10))
-  println()
+  
+  // error handling
+  // println(sortedShowsDesc)
+  println(extractYearStart("Breaking Bad (2008-2013)"))
+  println(extractName("Breaking Bad (2008-2013)"))
+  println(extractYearEnd("Breaking Bad (2008-2013)"))
+  println(parsedShows)
 def msg = "I was compiled by Scala 3. :)"
