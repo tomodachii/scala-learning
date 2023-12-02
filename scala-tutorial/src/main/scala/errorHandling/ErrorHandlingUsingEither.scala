@@ -11,6 +11,7 @@ type ParseShowsUsingEither = (rawShows: List[String]) => Either[String, List[TvS
 val parseShowsUsingEither: ParseShowsUsingEither = (rawShows) => {
   val initialResult: Either[String, List[TvShow]] = Right(List.empty)
   
+  // fold a list of either -> either of a list
   rawShows
     .map(parseShowUsingEither)
     .foldLeft(initialResult)(addOrResignUsingEither)
