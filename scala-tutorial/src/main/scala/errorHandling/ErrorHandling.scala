@@ -13,14 +13,21 @@ val shows = List(
 
 val sortedShowsDesc = sortShows(shows)
 
-val rawShows: List[String] = List(
-  "Breaking Bad (2008-2013)",
-  "The Wire (2002-2008)",
-  "Mad Men (2007-2015)"
-)
+val rawShows = List("Breaking Bad (2008-2013)", "The Wire (2008)", "Mad Men (2007-2015)")
 
-type ParseShows = (rawShows: List[String]) => List[Option[TvShow]]
-val parseShows: ParseShows = (rawShows) => rawShows.map(parseshow)
+// best-effort error handling
+// type ParseShows = (rawShows: List[String]) => List[TvShow]
+// val parseShows: ParseShows = (rawShows) => rawShows.flatMap(parseshow).toList
+
+// all-or-nothing error handling
+type ParseShows = (rawShows: List[String]) => Option[List[TvShow]]
+val parseShows: ParseShows = (rawShows) => {
+  val initialResult: Option[List[TvShow]] = Some(List.empty)
+  
+  rawShows
+    .map(parseshow)
+    .foldLeft(initialResult)(addOrResign)
+}
 
 // type ParseShow = (rawShow: String) => TvShow
 // val parseshow: ParseShow = (rawShow) => {
@@ -84,9 +91,48 @@ val extractYearEnd: ExtractYearStart = (rawShow) => {
 type ParseShow = (rawShow: String) => Option[TvShow]
 val parseshow: ParseShow = (rawShow) => for {
   name <- extractName(rawShow)
-  yearStart <- extractYearStart(rawShow)
-  yearEnd <- extractYearEnd(rawShow)
+  yearStart <- extractYearStart(rawShow).orElse(extractSingleYear(rawShow))
+  yearEnd <- extractYearEnd(rawShow).orElse(extractSingleYear(rawShow))
 } yield TvShow(name, yearStart, yearEnd)
 
+def extractSingleYear(rawShow: String): Option[Int] = {
+  val dash = rawShow.indexOf('-')
+  val bracketOpen = rawShow.indexOf('(')
+  val bracketClose = rawShow.indexOf(')')
+
+  for {
+    yearStr <- if (dash == -1 && bracketOpen != -1 && bracketClose > bracketOpen + 1) {
+      Some(rawShow.substring(bracketOpen + 1, bracketClose))
+    } else {
+      None
+    }
+    year <- yearStr.toIntOption
+  } yield year
+}
+
+def extractSingleYearOrEndYear(rawShow: String): Option[Int] = {
+  extractSingleYear(rawShow).orElse(extractYearEnd(rawShow))
+}
+
+def extractAnyYear(rawShow: String): Option[Int] = {
+  extractYearStart(rawShow)
+    .orElse(extractYearEnd(rawShow))
+    .orElse(extractSingleYear(rawShow))
+}
+
+def extractSingleYearIfNameExists(rawShow: String): Option[Int] = {
+  extractName(rawShow).flatMap(name => extractSingleYear(rawShow))
+}
+
+def extractAnyYearIfNameExists(rawShow: String): Option[Int] = {
+  extractName(rawShow).flatMap(name => extractAnyYear(rawShow))
+}
+
+def addOrResign(parsedShows: Option[List[TvShow]], newParsedShow: Option[TvShow]): Option[List[TvShow]] = {
+  for {
+    shows <- parsedShows
+    newShow <- newParsedShow
+  } yield shows.appended(newShow)
+}
 
 val parsedShows = parseShows(rawShows)

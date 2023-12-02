@@ -74,8 +74,14 @@ import productType.javalang
   
   // error handling
   // println(sortedShowsDesc)
-  println(extractYearStart("Breaking Bad (2008-2013)"))
-  println(extractName("Breaking Bad (2008-2013)"))
-  println(extractYearEnd("Breaking Bad (2008-2013)"))
-  println(parsedShows)
+  // println(extractYearStart("Breaking Bad (2008-2013)"))
+  // println(extractName("Breaking Bad (2008-2013)"))
+  // println(extractYearEnd("Breaking Bad (2008-2013)"))
+  println(parsedShowsUsingEither)
+  // println(extractAnyYearIfNameExists("Any (2002)"))
+  // println(addOrResign(Some(List.empty), Some(TvShow("Chernobyl", 2019, 2019))))
+  // println(addOrResign(Some(List(TvShow("Chernobyl", 2019, 2019))), Some(TvShow("The Wire", 2002, 2008))))
+  // println(addOrResign(Some(List(TvShow("Chernobyl", 2019, 2019))), None))
+  // println(addOrResign(None, Some(TvShow("Chernobyl", 2019, 2019))))
+  // println(addOrResign(None, None))
 def msg = "I was compiled by Scala 3. :)"
