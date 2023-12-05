@@ -1,11 +1,13 @@
 // import ranking.* 
+// import productType.scalalang
+// import productType.javalang
 // import foldLeftTestDrive.*
 // import productType.*
 // import flatMapVsForComprehensions.*
 // import forComprehension.*
-import errorHandling.*
-import productType.scalalang
-import productType.javalang
+// import errorHandling.*
+import dataModeling.*
+
 
 @main def hello: Unit =  
   // val words = List("russ", "aaas", "c")
@@ -77,11 +79,14 @@ import productType.javalang
   // println(extractYearStart("Breaking Bad (2008-2013)"))
   // println(extractName("Breaking Bad (2008-2013)"))
   // println(extractYearEnd("Breaking Bad (2008-2013)"))
-  println(parsedShowsUsingEither)
+  // println(parsedShowsUsingEither)
   // println(extractAnyYearIfNameExists("Any (2002)"))
   // println(addOrResign(Some(List.empty), Some(TvShow("Chernobyl", 2019, 2019))))
   // println(addOrResign(Some(List(TvShow("Chernobyl", 2019, 2019))), Some(TvShow("The Wire", 2002, 2008))))
   // println(addOrResign(Some(List(TvShow("Chernobyl", 2019, 2019))), None))
   // println(addOrResign(None, Some(TvShow("Chernobyl", 2019, 2019))))
   // println(addOrResign(None, None))
+  
+  // data modeling
+  println(searchArtists(artists, List("Pop"), List("England"), true, 1950, 2022))
 def msg = "I was compiled by Scala 3. :)"
