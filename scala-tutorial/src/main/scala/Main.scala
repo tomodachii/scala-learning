@@ -7,6 +7,7 @@
 // import forComprehension.*
 // import errorHandling.*
 import dataModeling.*
+// import forallExistsContains.*
 
 
 @main def hello: Unit =  
@@ -88,5 +89,16 @@ import dataModeling.*
   // println(addOrResign(None, None))
   
   // data modeling
-  println(searchArtists(artists, List("Pop"), List("England"), true, 1950, 2022))
+  // println(searchArtists(artists, List("Pop"), List("England"), true, 1950, 2022))
+
+  // forall, exists, contains
+  // println(usersWhoHaveNotSpecifiedTheirCity)
+  // println(usersWhoLiveInMelbourne)
+  // println(usersHaveNotSpecifiedTheirCityOrUsersLiveInMelbourne)
+  // println(usersLiveInLagos)
+  // println(usersLikeBeeGees)
+  // println(usersLiveInCitiesThatStartWithLetterT)
+  // println(userThatLikeArtistsWithNameLongerThanEightOrNoFavoriteArtistsAtAll)
+  // println(userLikeArtistsWhoseNamesStartWithM)
+  println(gatheredSongs)
 def msg = "I was compiled by Scala 3. :)"

@@ -25,41 +25,124 @@ object model {
     extension (a: YearsActiveEnd) def value: Int = a
   }
 
+  // the combination of yearsActiveStart and yearsActiveEnd to indicate the years that an artist active or retired
+  // -> coupled inside a product type
+  case class PeriodInYears(start: Int, end: Option[Int])
+
+  // Yes, it's enum in Scala
+  enum MusicGenre {
+    case HeavyMetal
+    case Pop
+    case HardRock
+  }
+
+  // sum type
+  enum YearsActive {
+    case StillActive(since: Int) // product type
+    case ActiveBetween(start: Int, end: Int)
+  }
+
   case class Artist(
     name: String,
-    genre: Genre,
+    genre: MusicGenre,
     origin: Location,
-    yearsActiveStart: YearsActiveStart,
-    yearsActiveEnd: Option[Int]
+    yearsActive: YearsActive
+  )
+
+  case class Song (
+    artist: Artist,
+    name: String
+  )
+
+  // case class User (
+  //   name: String
+  // )
+  opaque type User = String
+  object User {
+    def apply(value: String): User = value
+    extension(a: User) def name: String = a
+  }
+
+  enum PlaylistKind {
+    case CuratedByUser(user: User)
+    case BasedOnArtist(playlistArtist: Artist)
+    case BasedOnGenres(genres: Set[MusicGenre])
+  }
+
+  case class Playlist (
+    name: String,
+    kind: PlaylistKind,
+    songs: List[Song]
   )
 }
 
 import model._
+import MusicGenre._
+import YearsActive._
+import PlaylistKind._
 
 def searchArtists(
     artists: List[Artist],
-    genres: List[String],
+    genres: List[MusicGenre],
     locations: List[String],
     searchByActiveYears: Boolean,
     activeAfter: Int,
     activeBefore: Int
 ): List[Artist] = {
   artists.filter(artist =>
-    (genres.isEmpty || genres.contains(artist.genre.name)) &&
+    (genres.isEmpty || genres.contains(artist.genre)) &&
     (locations.isEmpty || locations.contains(artist.origin.name)) &&
-    (!searchByActiveYears || (
-      (artist.yearsActiveEnd.forall(_ >= activeAfter)) &&
-      (artist.yearsActiveStart.value <= activeBefore)
-    ))
+    (!searchByActiveYears || wasArtistActive(artist, activeAfter, activeBefore))
   )
 }
 
+def wasArtistActive (
+  artist: Artist, yearStart: Int, yearEnd: Int
+): Boolean = {
+  artist.yearsActive match {
+    case StillActive(since) => since <= yearEnd
+    case ActiveBetween(start, end) => start <= yearEnd && end >= yearStart
+  }
+}
+
 val artists = List(
-  Artist("Metallica", Genre("Heavy Metal"), Location("U.S."), YearsActiveStart(1981), None),
-  Artist("Led Zeppelin", Genre("Hard Rock"), Location("England"), YearsActiveStart(1968), Some(1980)),
-  Artist("Bee Gees", Genre("Pop"), Location("England"), YearsActiveStart(1958), Some(2003))
+  Artist("Metallica", HeavyMetal, Location("U.S."), StillActive(since = 1981)),
+  Artist("Led Zeppelin", HardRock, Location("England"), ActiveBetween(1986, 1980)),
+  Artist("Bee Gees", Pop, Location("England"), ActiveBetween(1959, 2003))
 )
 
 val us: Location = Location("U.S.")
 // This below won't compile
 // val wontCompile: Location = "U.S."
+
+val fooFighters = Artist("Foo Fighters", HardRock, Location("Moon"), ActiveBetween(1969, 2023))
+val magneticFields = Artist("Magnetic Fields", Pop, Location("The cactus where your heart should be"), StillActive(since = 1999))
+val daftPunk = Artist("Daft Punk", Pop, Location("Space"), StillActive(since = 1990))
+
+val playlist2 = Playlist("Deep Focus", BasedOnGenres(Set(Pop, HardRock)),
+List(Song(daftPunk, "One More Time"),Song(daftPunk, "Hey Boy Hey Girl")))
+
+
+val thisIsFoofighters = Playlist("This is Foo Fighters", BasedOnArtist(fooFighters), List(Song(fooFighters, "Breakout"), Song(fooFighters, "Learn to Fly")))
+
+val myPlaylist = Playlist("Sex", CuratedByUser(User("Jaccuzi")), List(Song(magneticFields, "Absolutely Cuckoo")))
+// val popSongs = Playlist("Pop69", BasedOnGenres(Set(Pop, HardRock)), List(Song(magneticFields, "Absolutely Cuckoo")))
+
+val listOfPlaylists: List[Playlist] = List(thisIsFoofighters, playlist2, myPlaylist)
+
+def gatherSongs(playlists: List[Playlist], artist: Artist, genre: MusicGenre): List[Song] = {
+  playlists.foldLeft(List.empty[Song])((songs, playlist) => 
+    val matchingSongs = playlist.kind match {
+      case CuratedByUser(user) => playlist.songs.filter(_.artist == artist)
+      case BasedOnGenres(genres) => if (genres.contains(genre)) {
+        playlist.songs
+      } else {
+        List.empty
+      }
+      case BasedOnArtist(playlistArtist) => if (playlistArtist == artist) playlist.songs else List.empty
+    }
+    songs.appendedAll(matchingSongs)
+  )
+}
+
+val gatheredSongs = gatherSongs(listOfPlaylists, artist = magneticFields, genre = HeavyMetal)
