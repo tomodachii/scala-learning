@@ -100,5 +100,11 @@ import dataModeling.*
   // println(usersLiveInCitiesThatStartWithLetterT)
   // println(userThatLikeArtistsWithNameLongerThanEightOrNoFavoriteArtistsAtAll)
   // println(userLikeArtistsWhoseNamesStartWithM)
-  println(gatheredSongs)
+  // println(gatheredSongs)
+
+  // println(oneConditionSearch)
+  // println(twoConditionsSearch)
+  // println(noConditionSearch)
+  println(searchByNumberOfactiveYears)
+  println(fooActiveLength)
 def msg = "I was compiled by Scala 3. :)"
