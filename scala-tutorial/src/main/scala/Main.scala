@@ -6,8 +6,12 @@
 // import flatMapVsForComprehensions.*
 // import forComprehension.*
 // import errorHandling.*
-import dataModeling.*
+// import dataModeling.*
 // import forallExistsContains.*
+import IOHandling.*
+import castingdieimpure.CastingDieImpure
+import castingdieimpure.CastingDieImpure.castTheDieImpureNofailures
+
 
 
 @main def hello: Unit =  
@@ -105,6 +109,15 @@ import dataModeling.*
   // println(oneConditionSearch)
   // println(twoConditionsSearch)
   // println(noConditionSearch)
-  println(searchByNumberOfactiveYears)
-  println(fooActiveLength)
+  // println(searchByNumberOfactiveYears)
+  // println(fooActiveLength)
+
+  // IO handling
+  // println(castTheDieImpureNofailures())
+  // val dieCast = castTheDie()
+  import cats.effect.unsafe.implicits.global
+  // println(dieCast.unsafeRunSync())
+  println(scheduledMeetings("Alice", "Bob").unsafeRunSync())
+  println(scheduledMeetings("Bob", "Johan"))
+  
 def msg = "I was compiled by Scala 3. :)"
