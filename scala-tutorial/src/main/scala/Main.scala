@@ -84,7 +84,14 @@ import castingdieimpure.CastingDieImpure.castTheDieImpureNofailures
   // println(extractYearStart("Breaking Bad (2008-2013)"))
   // println(extractName("Breaking Bad (2008-2013)"))
   // println(extractYearEnd("Breaking Bad (2008-2013)"))
+  // access Either or Option using pattern matching
   // println(parsedShowsUsingEither)
+  // val result = parsedShowsUsingEither match {
+  //   case Right(value) => value
+  //   case Left(value) => value
+  // }
+  // println(result)
+  
   // println(extractAnyYearIfNameExists("Any (2002)"))
   // println(addOrResign(Some(List.empty), Some(TvShow("Chernobyl", 2019, 2019))))
   // println(addOrResign(Some(List(TvShow("Chernobyl", 2019, 2019))), Some(TvShow("The Wire", 2002, 2008))))
@@ -117,7 +124,8 @@ import castingdieimpure.CastingDieImpure.castTheDieImpureNofailures
   // val dieCast = castTheDie()
   import cats.effect.unsafe.implicits.global
   // println(dieCast.unsafeRunSync())
-  println(scheduledMeetings("Alice", "Bob").unsafeRunSync())
-  println(scheduledMeetings("Bob", "Johan"))
+  // println(scheduledMeetings("Alice", "Bob").unsafeRunSync())
+  // println(scheduledMeetings("Bob", "Johan"))
+  print(schedule("Alice", "Bob", 2).unsafeRunSync())
   
 def msg = "I was compiled by Scala 3. :)"
