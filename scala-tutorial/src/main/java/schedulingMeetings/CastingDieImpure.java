@@ -23,7 +23,7 @@ public class CastingDieImpure {
     return rand.nextInt(6) + 1;
 	}
 
-	static int drawAPointCard() {
+	public static int drawAPointCard() {
 		Random rand = new Random();
 		if (rand.nextBoolean())
 			throw new RuntimeException("No cards");

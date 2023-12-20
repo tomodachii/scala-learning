@@ -8,6 +8,7 @@
 // import errorHandling.*
 // import dataModeling.*
 // import forallExistsContains.*
+import cats.effect.IO
 import IOHandling.*
 import castingdieimpure.CastingDieImpure
 import castingdieimpure.CastingDieImpure.castTheDieImpureNofailures
@@ -126,6 +127,16 @@ import castingdieimpure.CastingDieImpure.castTheDieImpureNofailures
   // println(dieCast.unsafeRunSync())
   // println(scheduledMeetings("Alice", "Bob").unsafeRunSync())
   // println(scheduledMeetings("Bob", "Johan"))
-  print(schedule("Alice", "Bob", 2).unsafeRunSync())
+  // print(schedule("Alice", "Bob", 2).unsafeRunSync())
+  // print(yearExample.orElse(IO.delay(2023)).unsafeRunSync())
+  // print(noYearExample.orElse(IO.delay(2023)).unsafeRunSync())
+  // print(noYearExample.orElse(IO.delay(throw new Exception("cant recover"))).unsafeRunSync())
+
+  // IO error handling
+  // print(castTheDieIfFailReturnZero.unsafeRunSync())
+  // print(drawACardIfFailCastTheDie)
+  // print(castTheDieIfFailRetryOnceIfFailReturnZero.unsafeRunSync())
+  print(castTheDieAndDrawACardWithFallbackValueZeroEach.unsafeRunSync())
+  // print(drawACardAndCastTheDieTwiceWithFallbackValueForAll)
   
 def msg = "I was compiled by Scala 3. :)"

@@ -3,6 +3,7 @@ import schedulingmeetings.SchedulingMeetingsAPI.calendarEntriesApiCall
 import schedulingmeetings.SchedulingMeetingsAPI
 import castingdieimpure.CastingDieImpure.castTheDieImpureNofailures
 import castingdieimpure.CastingDieImpure.castTheDieImpureWithFailures
+import castingdieimpure.CastingDieImpure.drawAPointCard
 import schedulingmeetingsimpure.SchedulingMeetingsImpure
 
 import scala.util.Random
@@ -81,6 +82,25 @@ def schedule(
 ): IO[Option[MeetingTime]] = {
   for {
     existingMeetings <- scheduledMeetings(person1, person2)
+      .orElse(scheduledMeetings(person1, person2))
+      .orElse(IO.pure(List.empty))
     meetings = possibleMeetings(existingMeetings, 8, 16, lengthHours)
   } yield meetings.headOption
 }
+
+val yearExample: IO[Int] = IO.delay(996)
+val noYearExample: IO[Int] = IO.delay(throw new Exception("no year"))
+
+// failure recovery
+val castTheDieIfFailReturnZero = castTheDie().orElse(IO.pure(0))
+val drawACardIfFailCastTheDie = IO.delay(drawAPointCard()).orElse(castTheDie())
+val castTheDieIfFailRetryOnceIfFailReturnZero = castTheDie().orElse(castTheDieIfFailReturnZero)
+val castTheDieAndDrawACardWithFallbackValueZeroEach = for {
+  dieResult <- castTheDie().orElse(IO.pure(0))
+  cardResult <- IO.delay(drawAPointCard()).orElse(IO.pure(0))
+} yield dieResult + cardResult
+val drawACardAndCastTheDieTwiceWithFallbackValueForAll = (for {
+  cardResult <- IO.delay(drawAPointCard())
+  dieResult1 <- castTheDie()
+  dieResult2 <- castTheDie()
+} yield cardResult + dieResult1 + dieResult2).orElse(IO.pure(0))
