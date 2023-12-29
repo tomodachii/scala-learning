@@ -5,6 +5,7 @@ import castingdieimpure.CastingDieImpure.castTheDieImpureNofailures
 import castingdieimpure.CastingDieImpure.castTheDieImpureWithFailures
 import castingdieimpure.CastingDieImpure.drawAPointCard
 import schedulingmeetingsimpure.SchedulingMeetingsImpure
+import consoleinterface.ConsoleInterface
 
 import scala.util.Random
 import cats.effect.IO
@@ -104,3 +105,29 @@ val drawACardAndCastTheDieTwiceWithFallbackValueForAll = (for {
   dieResult1 <- castTheDie()
   dieResult2 <- castTheDie()
 } yield cardResult + dieResult1 + dieResult2).orElse(IO.pure(0))
+
+// IO as data
+def consolePrint(message: String): Unit = ConsoleInterface.consolePrint(message)
+def consoleGet(): String = ConsoleInterface.consoleGet()
+
+def schedulingProgram(
+  getName: IO[String],
+  showMeeting: Option[MeetingTime] => IO[Unit]
+): IO[Unit] = for {
+  name1 <- getName
+  name2 <- getName
+  possibleMeeting <- schedule(name1, name2, 2)
+  _ <- showMeeting(possibleMeeting)
+} yield()
+
+// def schedulingProgram(
+//   getName: IO[String],
+//   showMeeting: Option[MeetingTime] => IO[Unit]
+// ): IO[Unit] =
+//   getName.flatMap { name1 =>
+//     getName.flatMap { name2 =>
+//       schedule(name1, name2, 2).flatMap { possibleMeeting =>
+//         showMeeting(possibleMeeting).map(_ => ()) // Mapping to Unit
+//       }
+//     }
+//   }

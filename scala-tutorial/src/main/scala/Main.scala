@@ -136,7 +136,13 @@ import castingdieimpure.CastingDieImpure.castTheDieImpureNofailures
   // print(castTheDieIfFailReturnZero.unsafeRunSync())
   // print(drawACardIfFailCastTheDie)
   // print(castTheDieIfFailRetryOnceIfFailReturnZero.unsafeRunSync())
-  print(castTheDieAndDrawACardWithFallbackValueZeroEach.unsafeRunSync())
+  // print(castTheDieAndDrawACardWithFallbackValueZeroEach.unsafeRunSync())
   // print(drawACardAndCastTheDieTwiceWithFallbackValueForAll)
+
+  // IO as data
+  schedulingProgram(
+    IO.delay(consoleGet()), 
+    meeting => IO.delay(consolePrint(meeting.toString))
+  ).unsafeRunSync()
   
 def msg = "I was compiled by Scala 3. :)"
