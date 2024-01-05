@@ -14,7 +14,6 @@ import castingdieimpure.CastingDieImpure
 import castingdieimpure.CastingDieImpure.castTheDieImpureNofailures
 
 
-
 @main def hello: Unit =  
   // val words = List("russ", "aaas", "c")
   // val words2 = List("yo", "abcd", "bulba")
@@ -140,9 +139,9 @@ import castingdieimpure.CastingDieImpure.castTheDieImpureNofailures
   // print(drawACardAndCastTheDieTwiceWithFallbackValueForAll)
 
   // IO as data
-  schedulingProgram(
-    IO.delay(consoleGet()), 
-    meeting => IO.delay(consolePrint(meeting.toString))
-  ).unsafeRunSync()
+  // schedulingProgram(
+  //   IO.delay(consoleGet()), 
+  //   meeting => IO.delay(consolePrint(meeting.toString))
+  // ).unsafeRunSync()
   
 def msg = "I was compiled by Scala 3. :)"
